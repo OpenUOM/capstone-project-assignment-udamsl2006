@@ -1,4 +1,4 @@
-const express = require ("express");
+const express = require("express");
 
 const {
   readTeachers,
@@ -11,7 +11,7 @@ const {
   readTeacherInfo,
   updateStudent,
   updateTeacher,
-  dbinitialize
+  dbinitialize,
 } = require ("./database.js");
 
 const app = express();
