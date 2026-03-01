@@ -6,6 +6,7 @@ import {
   faPenSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { AppServiceService } from "../../app-service.service";
+
 @Component({
   selector: "app-teacher-table",
   templateUrl: "./teacher-table.component.html",
@@ -60,18 +61,6 @@ export class TeacherTableComponent implements OnInit {
     );
   }
 
-  getStudentData() {
-    this.selected = "Students";
-    this.service.getStudentData().subscribe(
-      (response) => {
-        this.teacherData = response;
-      },
-      (error) => {
-        console.log("ERROR - ", error);
-      }
-    );
-  }
-
   search(value: string) {
     if (value.length <= 0 || !value.trim()) {
       this.getTeacherData();
@@ -94,6 +83,7 @@ export class TeacherTableComponent implements OnInit {
       );
     }
   }
+
   deleteTeacher(itemid) {
     const test = {
       id: itemid,
