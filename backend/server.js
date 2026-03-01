@@ -12,6 +12,8 @@ const {
   updateStudent,
   updateTeacher,
   dbinitialize,
+  searchTeacher,
+  searchStudent
 } = require("./database.js");
 
 const app = express();
@@ -119,6 +121,26 @@ app.post("/deleteStudent", async function (req, res) {
     "Request received to delete student. Req body: " + JSON.stringify(reqBody)
   );
   let data = await deleteStudent(reqBody.id);
+
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(data));
+});
+
+app.post("/searchTeacher", async function (req, res) {
+  let reqBody = req.body;
+  console.log("Request received to search Teacher");
+
+  let data = await searchTeacher(reqBody.name);
+
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(data));
+});
+
+app.post("/searchStudent", async function (req, res) {
+  let reqBody = req.body;
+  console.log("Request received to search Student");
+
+  let data = await searchStudent(reqBody.name);
 
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(data));
