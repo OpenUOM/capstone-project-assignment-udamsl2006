@@ -17,10 +17,9 @@ function init(db) {
 }
 
 const knex_db = require("./db-config");
-const testBase = require("./test/testBase");
 
 const dbinitialize = async () => {
-  return testBase.resetDatabase(knex_db);
+  testBase.resetDatabase(knex_db);
 };
 
 const addTeacher = async (id, name, age) => {
@@ -123,28 +122,7 @@ const deleteStudent = async (id) => {
   });
 };
 
-const searchTeacher = async (name) => {
-  const sql = `SELECT * FROM teacher WHERE name LIKE ?`;
-  return new Promise((resolve, reject) => {
-    knex_db
-      .raw(sql, [`%${name}%`])
-      .then((teachers) => resolve(teachers))
-      .catch((error) => reject(error));
-  });
-};
-
-const searchStudent = async (name) => {
-  const sql = `SELECT * FROM student WHERE name LIKE ?`;
-  return new Promise((resolve, reject) => {
-    knex_db
-      .raw(sql, [`%${name}%`])
-      .then((students) => resolve(students))
-      .catch((error) => reject(error));
-  });
-};
-
 module.exports = {
-  dbinitialize,
   addTeacher,
   readTeachers,
   readTeacherInfo,
@@ -155,6 +133,4 @@ module.exports = {
   readStudentInfo,
   updateStudent,
   deleteStudent,
-  searchTeacher,
-  searchStudent,
 };
