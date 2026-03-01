@@ -6,6 +6,7 @@ import {
   faPenSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { AppServiceService } from "../../app-service.service";
+
 @Component({
   selector: "app-student-table",
   templateUrl: "./student-table.component.html",
@@ -59,7 +60,6 @@ export class StudentTableComponent implements OnInit {
 
   search(value: string) {
     if (value.length <= 0 || !value.trim()) {
-      // If search is empty, reload all student data
       this.getStudentData();
     } else {
       this.service.getStudentData().subscribe(
