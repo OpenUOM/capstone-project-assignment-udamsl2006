@@ -15,7 +15,7 @@ export class EditStudentComponent implements OnInit {
   constructor(private service: AppServiceService, private router: Router) {
     // Capture navigation state inside the constructor where it is guaranteed to exist
     const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state) {
+    if (navigation && navigation.extras && navigation.extras.state) {
       this.studentId = navigation.extras.state.id;
     }
   }
@@ -24,8 +24,7 @@ export class EditStudentComponent implements OnInit {
     if (this.studentId) {
       this.getStudentData();
     } else {
-      // Safety redirect if the ID is missing (e.g., on page refresh)
-      this.router.navigate(['studentTable']);
+      this.router.navigate(['student']);
     }
   }
 
@@ -49,8 +48,7 @@ export class EditStudentComponent implements OnInit {
     this.service.editStudent(payload).subscribe(
       (response) => {
         console.log('Student updated successfully');
-        // Redirect back to the table view
-        this.router.navigate(['studentTable']);
+        this.router.navigate(['student']);
       },
       (error) => {
         console.log('ERROR - ', error);
