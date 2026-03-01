@@ -12,7 +12,6 @@ export class EditTeacherComponent implements OnInit {
 
   teacherData: any;
 
-
   constructor(private service : AppServiceService, private router: Router) { }
 
   navigation = this.router.getCurrentNavigation();
