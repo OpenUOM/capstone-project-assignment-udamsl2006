@@ -60,4 +60,12 @@ export class AppServiceService {
   deleteStudent(payload: Object){
     return this.http.post(`/${this.ROOT_URL}/deleteStudent`, payload)
   }
+
+  searchTeacher(payload: Object){
+    return this.http.post(`/${this.ROOT_URL}/searchTeacher`, payload)
+  }
+
+  searchStudent(payload: Object){
+    return this.http.post(`/${this.ROOT_URL}/searchStudent`, payload)
+  }
 }
