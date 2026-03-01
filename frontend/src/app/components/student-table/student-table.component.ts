@@ -36,7 +36,9 @@ export class StudentTableComponent implements OnInit {
     this.selected = "Students";
     this.service.getStudentData().subscribe(
       (response: any) => {
-        this.studentData = Object.keys(response).map((key) => response[key]);
+        this.studentData = Array.isArray(response)
+          ? response.map((item: any) => [item])
+          : Object.keys(response).map((key) => response[key]);
       },
       (error) => console.log("ERROR - ", error)
     );
@@ -46,12 +48,11 @@ export class StudentTableComponent implements OnInit {
     if (!value.trim()) {
       this.getStudentData();
     } else {
-      this.service.getStudentData().subscribe(
+      this.service.searchStudent({ name: value.trim() }).subscribe(
         (response: any) => {
-          const allStudents = Object.keys(response).map((key) => response[key]);
-          this.studentData = allStudents.filter((student) =>
-            student.name.toLowerCase().includes(value.toLowerCase().trim())
-          );
+          this.studentData = Array.isArray(response)
+            ? response.map((item: any) => [item])
+            : Object.keys(response).map((key) => response[key]);
         },
         (error) => console.log("ERROR - ", error)
       );
