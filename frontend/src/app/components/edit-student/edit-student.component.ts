@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppServiceService } from '../../app-service.service';
+import { Router, NavigationExtras } from '@angular/router';
+import {AppServiceService} from '../../app-service.service';
 
 @Component({
   selector: 'app-edit-student',
@@ -10,49 +10,34 @@ import { AppServiceService } from '../../app-service.service';
 export class EditStudentComponent implements OnInit {
 
   studentData: any;
-  studentId: any;
 
-  constructor(private service: AppServiceService, private router: Router) {
-    // Capture navigation state inside the constructor where it is guaranteed to exist
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation && navigation.extras && navigation.extras.state) {
-      this.studentId = navigation.extras.state.id;
-    }
-  }
+
+  constructor(private service : AppServiceService, private router: Router) { }
+
+  navigation = this.router.getCurrentNavigation();
 
   ngOnInit(): void {
-    if (this.studentId) {
-      this.getStudentData();
-    } else {
-      this.router.navigate(['student']);
+    this.getStudentData();
+  }
+
+  getStudentData(){
+    let student = {
+      id : this.navigation.extras.state.id
     }
+    this.service.getOneStudentData(student).subscribe((response)=>{
+      this.studentData = response[0];
+    },(error)=>{
+      console.log('ERROR - ', error)
+    })
   }
 
-  getStudentData() {
-    const payload = { id: this.studentId };
-    this.service.getOneStudentData(payload).subscribe(
-      (response: any) => {
-        // Handle both array and object responses to prevent mapping errors
-        this.studentData = Array.isArray(response) ? response[0] : response;
-      },
-      (error) => {
-        console.log('ERROR - ', error);
-      }
-    );
+  editStudent(values){
+    values.id = this.navigation.extras.state.id;
+    this.service.editStudent(values).subscribe((response)=>{
+      this.studentData = response[0];
+    },(error)=>{
+      console.log('ERROR - ', error)
+    })
   }
 
-  editStudent(values: any) {
-    // Ensure the ID is attached to the payload sent to editStudent(payload) in service
-    const payload = { ...values, id: this.studentId };
-    
-    this.service.editStudent(payload).subscribe(
-      (response) => {
-        console.log('Student updated successfully');
-        this.router.navigate(['student']);
-      },
-      (error) => {
-        console.log('ERROR - ', error);
-      }
-    );
-  }
 }
