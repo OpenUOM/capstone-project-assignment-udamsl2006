@@ -14,7 +14,7 @@ export class EditTeacherComponent implements OnInit {
   constructor(private service: AppServiceService, private router: Router) {
     // Capture the state immediately in the constructor
     const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state) {
+    if (navigation && navigation.extras && navigation.extras.state) {
       this.teacherId = navigation.extras.state.id;
     }
   }
@@ -24,7 +24,7 @@ export class EditTeacherComponent implements OnInit {
       this.getTeacherData();
     } else {
       // If no ID (e.g. on page refresh), send user back to the list
-      this.router.navigate(['teacherTable']); 
+      this.router.navigate(['']); 
     }
   }
 
@@ -49,7 +49,7 @@ export class EditTeacherComponent implements OnInit {
       (response) => {
         console.log('Update Successful');
         // Navigate back to the table after successful edit
-        this.router.navigate(['teacherTable']); 
+        this.router.navigate(['']); 
       },
       (error) => {
         console.log('ERROR - ', error);
