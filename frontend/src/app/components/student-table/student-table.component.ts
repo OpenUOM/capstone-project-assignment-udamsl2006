@@ -60,10 +60,8 @@ export class StudentTableComponent implements OnInit {
   }
 
   deleteStudent(itemid: any) {
-    if (confirm("Are you sure you want to delete this student?")) {
-      this.service.deleteStudent({ id: itemid }).subscribe(() => {
-        this.getStudentData();
-      });
-    }
+    this.service.deleteStudent({ id: itemid }).subscribe(() => {
+      this.getStudentData();
+    });
   }
 }
