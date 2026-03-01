@@ -60,11 +60,9 @@ export class TeacherTableComponent implements OnInit {
   }
 
   deleteTeacher(itemid: any) {
-    if (confirm("Are you sure you want to delete this teacher?")) {
-      this.service.deleteTeacher({ id: itemid }).subscribe(() => {
-        this.getTeacherData();
-      });
-    }
+    this.service.deleteTeacher({ id: itemid }).subscribe(() => {
+      this.getTeacherData();
+    });
   }
 
   initializeDB() {
