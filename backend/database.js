@@ -17,9 +17,10 @@ function init(db) {
 }
 
 const knex_db = require("./db-config");
+const testBase = require("./test/testBase");
 
 const dbinitialize = async () => {
-  testBase.resetDatabase(knex_db);
+  return testBase.resetDatabase(knex_db);
 };
 
 const addTeacher = async (id, name, age) => {
@@ -143,6 +144,7 @@ const searchStudent = async (name) => {
 };
 
 module.exports = {
+  dbinitialize,
   addTeacher,
   readTeachers,
   readTeacherInfo,
