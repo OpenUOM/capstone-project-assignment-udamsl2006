@@ -1,11 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, NavigationExtras } from "@angular/router";
-import {
-  faTrash,
-  faPlus,
-  faPenSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPlus, faPenSquare } from "@fortawesome/free-solid-svg-icons";
 import { AppServiceService } from "../../app-service.service";
+
 @Component({
   selector: "app-student-table",
   templateUrl: "./student-table.component.html",
@@ -15,8 +12,8 @@ export class StudentTableComponent implements OnInit {
   faTrash = faTrash;
   faPlus = faPlus;
   faPenSquare = faPenSquare;
-  studentData: any;
-  selected: any;
+  studentData: any[] = [];
+  selected: string = "Students";
 
   constructor(private service: AppServiceService, private router: Router) {}
 
@@ -28,54 +25,44 @@ export class StudentTableComponent implements OnInit {
     this.router.navigate(["addStudent"]);
   }
 
-  editStudent(id) {
+  editStudent(id: any) {
     const navigationExtras: NavigationExtras = {
-      state: {
-        id: id,
-      },
+      state: { id: id },
     };
     this.router.navigate(["editStudent"], navigationExtras);
   }
 
   getStudentData() {
+    this.selected = "Students";
     this.service.getStudentData().subscribe(
-      (response) => {
-        this.studentData = Object.keys(response).map((key) => [response[key]]);
+      (response: any) => {
+        this.studentData = Object.keys(response).map((key) => response[key]);
       },
-      (error) => {
-        console.log("ERROR - ", error);
-      }
+      (error) => console.log("ERROR - ", error)
     );
   }
 
-  deleteStudent(itemid) {
-    const student = {
-      id: itemid,
-    };
-    this.service.deleteStudent(student).subscribe((response) => {
-      this.getStudentData();
-    });
-  }
-
   search(value: string) {
-    if (value.length <= 0 || !value.trim()) {
-      // If search is empty, reload all student data
+    if (!value.trim()) {
       this.getStudentData();
     } else {
       this.service.getStudentData().subscribe(
-        (response) => {
+        (response: any) => {
           const allStudents = Object.keys(response).map((key) => response[key]);
-          const foundItems = allStudents.filter((student) => {
-            return student.name
-              .toLowerCase()
-              .includes(value.toLowerCase().trim());
-          });
-          this.studentData = foundItems;
+          this.studentData = allStudents.filter((student) =>
+            student.name.toLowerCase().includes(value.toLowerCase().trim())
+          );
         },
-        (error) => {
-          console.log("ERROR - ", error);
-        }
+        (error) => console.log("ERROR - ", error)
       );
+    }
+  }
+
+  deleteStudent(itemid: any) {
+    if (confirm("Are you sure you want to delete this student?")) {
+      this.service.deleteStudent({ id: itemid }).subscribe(() => {
+        this.getStudentData();
+      });
     }
   }
 }
