@@ -36,8 +36,9 @@ export class TeacherTableComponent implements OnInit {
     this.selected = "Teachers";
     this.service.getTeacherData().subscribe(
       (response: any) => {
-        // Standardized mapping to a single-level array
-        this.teacherData = Object.keys(response).map((key) => response[key]);
+        this.teacherData = Array.isArray(response)
+          ? response.map((item: any) => [item])
+          : Object.keys(response).map((key) => response[key]);
       },
       (error) => console.log("ERROR - ", error)
     );
@@ -47,12 +48,11 @@ export class TeacherTableComponent implements OnInit {
     if (!value.trim()) {
       this.getTeacherData();
     } else {
-      this.service.getTeacherData().subscribe(
+      this.service.searchTeacher({ name: value.trim() }).subscribe(
         (response: any) => {
-          const allTeachers = Object.keys(response).map((key) => response[key]);
-          this.teacherData = allTeachers.filter((teacher) =>
-            teacher.name.toLowerCase().includes(value.toLowerCase().trim())
-          );
+          this.teacherData = Array.isArray(response)
+            ? response.map((item: any) => [item])
+            : Object.keys(response).map((key) => response[key]);
         },
         (error) => console.log("ERROR - ", error)
       );
