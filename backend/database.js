@@ -123,6 +123,7 @@ const deleteStudent = async (id) => {
 };
 
 module.exports = {
+  dbinitialize,
   addTeacher,
   readTeachers,
   readTeacherInfo,
