@@ -23,8 +23,7 @@ app.get("/dbinitialize", async function (req, res) {
   console.log("DB is getting initialized");
   let data = await dbinitialize();
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 // ============== Teacher Related endpoints ==============
 
@@ -32,17 +31,15 @@ app.get("/listTeachers", async function (req, res) {
   console.log("Request received to list teachers");
   let data = await readTeachers();
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
-app.get("/getTeacherInfo", async function (req, res) {
-  let reqBody = req.query;
+app.post("/getTeacherInfo", async function (req, res) {
+  let reqBody = req.body;
   console.log("Request received to get Teacher Info");
   let data = await readTeacherInfo(reqBody.id);
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
 app.post("/addTeacher", async function (req, res) {
@@ -52,8 +49,7 @@ app.post("/addTeacher", async function (req, res) {
   );
   let data = await addTeacher(reqBody.id, reqBody.name, reqBody.age);
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
 app.post("/editTeacher", async function (req, res) {
@@ -63,8 +59,7 @@ app.post("/editTeacher", async function (req, res) {
   );
   let data = await updateTeacher(reqBody.name, reqBody.age, reqBody.id);
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
 app.post("/deleteTeacher", async function (req, res) {
@@ -74,8 +69,7 @@ app.post("/deleteTeacher", async function (req, res) {
   );
   let data = await deleteTeacher(reqBody.id);
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
 // ============== Student Related endpoints ==============
@@ -84,17 +78,15 @@ app.get("/listStudents", async function (req, res) {
   console.log("Request received to list students");
   let data = await readStudents();
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
-app.get("/getStudentInfo", async function (req, res) {
-  let reqBody = req.query;
+app.post("/getStudentInfo", async function (req, res) {
+  let reqBody = req.body;
   console.log("Request received to get Student Info");
   let data = await readStudentInfo(reqBody.id);
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
 app.post("/addStudent", async function (req, res) {
@@ -109,8 +101,7 @@ app.post("/addStudent", async function (req, res) {
     reqBody.hometown
   );
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
 app.post("/deleteStudent", async function (req, res) {
@@ -120,8 +111,7 @@ app.post("/deleteStudent", async function (req, res) {
   );
   let data = await deleteStudent(reqBody.id);
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
 app.post("/editStudent", async function (req, res) {
@@ -136,8 +126,7 @@ app.post("/editStudent", async function (req, res) {
     reqBody.id
   );
 
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
 module.exports = app;
