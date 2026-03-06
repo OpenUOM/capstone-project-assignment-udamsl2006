@@ -36,8 +36,8 @@ app.get("/listTeachers", async function (req, res) {
   res.end(JSON.stringify(data));
 });
 
-app.post("/getTeacherInfo", async function (req, res) {
-  let reqBody = req.body;
+app.get("/getTeacherInfo", async function (req, res) {
+  let reqBody = req.query;
   console.log("Request received to get Teacher Info");
   let data = await readTeacherInfo(reqBody.id);
 
@@ -88,8 +88,8 @@ app.get("/listStudents", async function (req, res) {
   res.end(JSON.stringify(data));
 });
 
-app.post("/getStudentInfo", async function (req, res) {
-  let reqBody = req.body;
+app.get("/getStudentInfo", async function (req, res) {
+  let reqBody = req.query;
   console.log("Request received to get Student Info");
   let data = await readStudentInfo(reqBody.id);
 
