@@ -1,12 +1,16 @@
-import { Selector } from 'testcafe';
+import { Selector, ClientFunction } from 'testcafe';
 process.env.NODE_ENV = "test";
+
+const initializeDB = ClientFunction(() =>
+    fetch('/dbinitialize').then(r => r.json())
+);
 
 fixture`Testing Student UI`
     .page`http://localhost:4401/student`
 
 test('Testing add students', async t => {
 
-    await t.navigateTo("/dbinitialize");
+    await initializeDB();
 
     await t.navigateTo("/addStudent");
     await t.typeText("#student-id", "999999");
