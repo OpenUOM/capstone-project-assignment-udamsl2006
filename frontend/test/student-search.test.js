@@ -1,5 +1,9 @@
-import { Selector } from 'testcafe';
+import { Selector, ClientFunction } from 'testcafe';
 process.env.NODE_ENV = "test";
+
+const initializeDB = ClientFunction(() =>
+    fetch('/dbinitialize').then(r => r.json())
+);
 
 fixture`Testing Student UI`
     .page`http://localhost:4401/student`
@@ -14,5 +18,5 @@ test('Testing search students', async t => {
     let tdText = await table.find('tr').nth(rowCount-1).innerText;
     await t.expect(rowCount).eql(2)
 
-    await t.navigateTo("/dbinitialize");
+    await initializeDB();
 });
