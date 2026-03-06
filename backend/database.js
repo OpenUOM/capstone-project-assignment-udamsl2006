@@ -1,25 +1,9 @@
-const dbConnection = require("./sqlite");
-
-dbConnection
-  .getDbConnection()
-  .then((db) => {
-    init(db);
-  })
-  .catch((err) => {
-    console.log(err);
-    throw err;
-  });
-
-let _db;
-
-function init(db) {
-  _db = db;
-}
-
 const knex_db = require("./db-config");
 
 const dbinitialize = async () => {
-  testBase.resetDatabase(knex_db);
+  await knex_db.migrate.rollback();
+  await knex_db.migrate.latest();
+  return { status: "Database initialized successfully" };
 };
 
 const addTeacher = async (id, name, age) => {
