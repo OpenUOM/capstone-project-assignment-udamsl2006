@@ -29,12 +29,12 @@ export class AppServiceService {
     return this.http.get(`/${this.ROOT_URL}/listStudents`)
   }
 
-  getOneStudentData(payload: Object){
-    return this.http.post(`/${this.ROOT_URL}/getStudentInfo`, payload)
+  getOneStudentData(id: string | number){
+    return this.http.get(`/${this.ROOT_URL}/getStudentInfo`, { params: { id } })
   }
 
-  getOneTeacherData(payload: Object){
-    return this.http.post(`/${this.ROOT_URL}/getTeacherInfo`, payload)
+  getOneTeacherData(id: string | number){
+    return this.http.get(`/${this.ROOT_URL}/getTeacherInfo`, { params: { id } })
   }
 
   addTeacher(payload: Object){
